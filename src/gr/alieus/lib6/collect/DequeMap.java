@@ -16,10 +16,7 @@
 
 package gr.alieus.lib6.collect;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Data structure that maps a key to multiple values.
