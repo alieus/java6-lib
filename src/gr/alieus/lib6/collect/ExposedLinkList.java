@@ -34,6 +34,12 @@ public class ExposedLinkList<E> extends AbstractList<E> {
         Node next;
         boolean detached;
 
+        public Node(E datum, Node previous, Node next) {
+            this.datum = datum;
+            this.previous = previous;
+            this.next = next;
+        }
+        
         public E getDatum() {
             return datum;
         }
@@ -93,70 +99,116 @@ public class ExposedLinkList<E> extends AbstractList<E> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    void linkAfter(Node n, E datum) {
+        n.next = new Node(datum, n, n.next);
+        if (n.next.next != null) {
+            n.next.next.previous = n.next;
+        } else if (n == tail) {
+            tail = n.next;
+        }
+        incSize(1);
+    }
     
+    void linkFirst(E datum) {
+        if (head == null) {
+            head = new Node(datum, null, null);
+            tail = head;
+        } else {
+            head = new Node(datum, null, head);
+            head.next.previous = head;
+        }
+        incSize(1);
+    }
+    
+    private void incSize(int count) {
+        size += count;
+        modCount++;
+    }
+    
+// Iterator
     private class Itr implements ListIterator<E> {
-        private Node current;
-        private int currentIndex;
+        private Node nextNode;
+        private Node last;
+        private int nextIndex;
         private int itrModCount = modCount;
 
-        public Itr(Node current, int currentIndex) {
-            this.current = current;
-            this.currentIndex = currentIndex;
+        public Itr(Node next, int currentIndex) {
+            this.nextNode = next;
+            this.nextIndex = currentIndex;
         }
         
         @Override
         public boolean hasNext() {
-            return current.next != null;
+            return nextNode != null;
         }
 
         @Override
         public E next() {
+            checkModCount();
             if (!hasNext()) {
                 throw new NoSuchElementException("No next element");
             }
-            current = current.next();
-            currentIndex++;
-            return current.datum;
+            E result = nextNode.datum;
+            last = nextNode; 
+            nextNode = nextNode.next();
+            nextIndex++;
+            return result;
         }
 
         @Override
         public boolean hasPrevious() {
-            return current.previous != null;
+            return nextNode == null && tail != null
+                    || nextNode.previous != null;
         }
 
         @Override
         public E previous() {
+            checkModCount();
             if (!hasPrevious()) {
                 throw new NoSuchElementException("No previous element");
             }
-            current = current.previous();
-            currentIndex--;
-            return current.datum;
+            if (nextNode == null) {
+                nextNode = tail;
+            } else {
+                nextNode = nextNode.previous();
+            }
+            E result = nextNode.datum;
+            last = nextNode;
+            nextIndex--;
+            return result;
         }
 
         @Override
         public int nextIndex() {
-            return currentIndex+1;
+            return nextIndex;
         }
 
         @Override
         public int previousIndex() {
-            return currentIndex-1;
+            return nextIndex-1;
         }
 
         @Override
         public void remove() {
+            checkModCount();
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void set(E e) {
-            current.datum = e;
+            nextNode.datum = e;
         }
 
         @Override
         public void add(E e) {
+            checkModCount();
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+        void checkModCount() throws ConcurrentModificationException {
+            if (itrModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
         }
         
     }
