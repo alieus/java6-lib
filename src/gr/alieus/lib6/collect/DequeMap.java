@@ -27,7 +27,31 @@ import java.util.*;
  * can be treated as a regular, single-valued, map.
  * <p/>
  * A key is considered to exist in the map if at least one value is associated with it.
+ * <p/>
+ * The values of each key may be accessed as {@link List lists} via {@link #getAll}.
+ * <code><pre>
+ * DequeMap<String, String> dMap = ...
+ * dMap.setAll("john", asList("wash", "dry", "iron"));
+ * // remove dry
+ * dMap.getAll("john").remove("dry");
+ * // the same applies to non-existent keys!
+ * List<String> marysWorks = dMap.getAll("mary");
+ * marysWorks.add("market"); // now the key "mary" is added to the map
+ * </pre></code>
+ * <p/>
+ * The contents of the deque-map may be viewed as a {@link Map}.
+ * <code><pre>
+ * // print the job batches of everyone
+ * for (List<String> vals : dMap.asMap().values()) {
+ *     System.out.println(vals);
+ * }
+ * // copy to a map
+ * Map<String, List<String>> copy = new HashMap<>(dMap.asMap());
+ * </pre></code>
+ * NOTE: Unlike {@code getAll}, {@code asMap} returns an unmodifyable map.
  * 
+ * @param <K> the type of the keys
+ * @param <V> the type of the values
  * @author Stathis Aliprantis - alieus@hotmail.gr
  */
 public interface DequeMap<K, V> {
@@ -44,7 +68,7 @@ public interface DequeMap<K, V> {
     /**
      * Sets the value of the given key.
      * Any pre-existing values will be removed.
-     * After this operation the key will be associated with a single value
+     * After this operation the key will be associated with a single value.
      * 
      * @param key the key to set it's value
      * @param value the value to set for key
@@ -62,7 +86,7 @@ public interface DequeMap<K, V> {
     
     /**
      * Returns and removes the first value associated with the given key.
-     * If key does not exist, this method returns {@literal null}
+     * Returns {@literal null} if key does not exist.
      * 
      * @param key the key to pop it's first value
      * @return the first value associated with key or {@literal null}
@@ -72,7 +96,7 @@ public interface DequeMap<K, V> {
     
     /**
      * Returns and removes the last value associated with the given key.
-     * If key does not exist, this method returns {@literal null}
+     * Returns {@literal null} if key does not exist.
      * 
      * @param key the key to pop it's last value
      * @return the last value associated with key or {@literal null}
