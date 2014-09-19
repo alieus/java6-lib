@@ -107,6 +107,12 @@ public class LinkedDequeHashMap<K, V>
         
     }
 
+    /** 
+     * {@inheritDoc}
+     * <p/>
+     * NOTE: This implementation currently does not support add and
+     * remove operations via the iterators.
+     */
     @Override
     public List<V> getAll(K key) {
         return new KeyDequeView(key);

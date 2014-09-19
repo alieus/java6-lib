@@ -76,14 +76,14 @@ public class CollectUtil {
         List<E> result = new ArrayList<E>(original.size());
         
         if (original instanceof RandomAccess) {
-            ListIterator<E> it = original.listIterator(original.size());
-            while (it.hasPrevious()) {
-                result.add(it.previous());
+            for (int i = original.size()-1; i >= 0; i--) {
+            	result.add(original.get(i));
             }
         } else {
-            for (int i = original.size()-1; i >= 0; i--) {
-                result.add(original.get(i));
-            }
+        	ListIterator<E> it = original.listIterator(original.size());
+        	while (it.hasPrevious()) {
+        		result.add(it.previous());
+        	}
         }
         
         return result;

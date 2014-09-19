@@ -70,7 +70,7 @@ public class ExposedList<E> extends AbstractList<E> {
             checkNotDettached();
             return new Iterable<E>() {
                 public Iterator<E> iterator() {
-                    return new Itr(next, -1); // we don't know index
+                    return new Itr(next); // we don't know index
                 };
             };
         }
@@ -149,7 +149,40 @@ public class ExposedList<E> extends AbstractList<E> {
             }
         }
         
-             
+        /**
+         * Removes this node and it's data from the list.
+         * 
+         * @throws IllegalStateException if this node is not present on the list
+         */
+        public void remove() {
+        	checkNotDettached();
+            unlink();
+            incSizeMod(-1);
+        }
+        
+        public Node addAfter(E datum) {
+        	checkNotDettached();
+        	incSizeMod(1);
+        	return linkAfter(this, datum);
+        }
+        
+        public Node addBefore(E datum) {
+        	if (this.previous != null) {
+        		return this.previous.addBefore(datum);
+        	} else {
+        		incSizeMod(1);
+        		return linkFirst(datum);
+        	}
+        }
+        
+        public void addAllAfter(Collection<E> data) {
+        	
+        }
+        
+        public void addAllBefore(Collection<E> data) {
+        	
+        }
+        
         final void unlink() {
             if (this == head) {
                 head = this.next;
@@ -192,8 +225,63 @@ public class ExposedList<E> extends AbstractList<E> {
         return size;
     }
     
+    /** 
+     * Returns a list iterator over the elements in this list (in proper sequence),
+     * starting at the specified position in the list. The specified index
+     * indicates the first element that would be returned by an initial call to next.
+     * An initial call to previous would return the element with the specified index minus one.
+     * <p/>
+     * The returned iterator throws {@code ConcurrentModificationException}s
+     * as specified by {@code ListIterator}.
+     * 
+     * @throws IndexOutOfBoundsException if index < 0 or index > size
+     */
+    @Override
+    public ListIterator<E> listIterator(int index) {
+    	if (index == size) {
+    		return new Itr(null, index);
+    	}
+    	return new Itr(getNodeAt(index), index);
+    }
+
+    /** 
+     * Returns an iterator over the elements in this list in proper sequence.
+     * This implementation returns {@code ListIterator(0)}.
+     * @see #listIterator(int)
+     */
+    @Override
+    public Iterator<E> iterator() {
+    	return listIterator();
+    }
     
+    @Override
+    public boolean contains(Object o) {
+    	if (o == null) {
+    		for (Node it = head; it != null; it = it.next) {
+    			if (it.datum == null) return true;
+    		}
+    	} else {
+    		for (Node it = head; it != null; it = it.next) {
+    			if (o.equals(it.datum)) return true;
+    		}
+    	}
+    	
+    	return false;
+    }
     
+    @Override
+    public void add(int index, E element) {
+    	// TODO Auto-generated method stub
+    	super.add(index, element);
+    }
+    
+    /** 
+     * Returns the first element of this list (at index 0) or {@literal null}
+     * if the list is empty.
+     * 
+     * @return the first element of this list (at index 0) or {@literal null}
+     * if the list is empty.
+     */
     public E getFirst() {
         if (head != null) {
             return head.datum;
@@ -202,6 +290,13 @@ public class ExposedList<E> extends AbstractList<E> {
         }
     }
     
+    /** 
+     * Returns the last element of this list (at index 0) or {@literal null}
+     * if the list is empty.
+     * 
+     * @return the last element of this list (at index 0) or {@literal null}
+     * if the list is empty.
+     */
     public E getLast() {
         if (tail != null) {
             return tail.datum;
@@ -210,46 +305,98 @@ public class ExposedList<E> extends AbstractList<E> {
         }
     }
     
+    /**
+     * Removes and returns the first element of this list.
+     * If the list is empty, does nothing and returns null.
+     * 
+     * @return the first element of this list or {@code null} if this list is empty
+     */
     public E popFirst() {
         if (head == null) {
             return null;
         }
         E result = head.datum;
-        removeNode(head);
+        head.remove();
         return result;
     }
-    
+
+    /**
+     * Removes and returns the last element of this list.
+     * If the list is empty, does nothing and returns null.
+     * 
+     * @return the last element of this list or {@literal null} if this list is empty
+     */
     public E popLast() {
         if (tail == null) {
             return null;
         }
         E result = tail.datum;
-        removeNode(tail);
+        tail.remove();
         return result;
     }
     
-    public void assertNotEmpty() {
-        
-    }
-    
-    public Node addFirst(E elem) {
-        Node result = linkFirst(elem);
-        incSize(1);
-        return result;
-    }
-    
-    public Node addLast(E elem) {
-        Node result;
-        if (tail == null) {
-            result = linkFirst(elem);
-        } else {
-            result = linkAfter(tail, elem);
+    /**
+     * Throws {@code IllegalStateException} if this list is empty.
+     * 
+     * @throws IllegalStateException if this list is empty
+     */
+    public void assertNotEmpty() throws IllegalStateException {
+        if (isEmpty()) {
+        	throw new IllegalStateException("List is empty");
         }
-        incSize(1);
-        return result;
     }
     
+    /**
+     * Throws {@code IllegalStateException} if this list contains less than the
+     * specified elements.
+     * 
+     * @throws IllegalStateException if this list contains less than the
+     * specified elements
+     */
+    public void assertContainsAtLeast(int count) {
+    	if (size() < count) {
+    		throw new IllegalStateException("List contains less than "+count+" elements");
+    	}
+    }
+    
+    /**
+     * Adds the given element as the first element of this list.
+     * Returns the node that holds the element.
+     * 
+     * @param elem the element to add
+     * @return the node that holds the added element
+     */
+    public Node addFirst(E elem) {
+        incSizeMod(1);
+        return linkFirst(elem);
+    }
+
+    /**
+     * Adds the given element as the last element of this list.
+     * Returns the node that holds the element.
+     * 
+     * @param elem the element to add
+     * @return the node that holds the added element
+     */
+    public Node addLast(E elem) {
+        incSizeMod(1);
+        if (tail == null) {
+            return linkFirst(elem);
+        } else {
+            return linkAfter(tail, elem);
+        }
+    }
+    
+    /**
+     * Returns the node that holds the element at the given position.
+     * 
+     * @param index the index of the node to return
+     * @return the node at the given index
+     * @throws IndexOutOfBoundsException if the given index is out of bounds
+     */
     public Node getNodeAt(int index) {
+    	checkIndex(index);
+    	
         int i;
         Node it;
         if (index <= size /2) {
@@ -260,23 +407,20 @@ public class ExposedList<E> extends AbstractList<E> {
         return it;
     }
     
-    public void removeNode(Node n) {
-        n.unlink();
-        incSize(-1);
-    }
     
-    Node linkAfter(Node n, E datum) {
+    
+    private Node linkAfter(Node n, E datum) {
         n.next = new Node(datum, n, n.next);
         if (n.next.next != null) {
             n.next.next.previous = n.next;
         } else if (n == tail) {
             tail = n.next;
         }
+        
         return n.next;
-//        incSize(1);
     }
     
-    Node linkFirst(E datum) {
+    private Node linkFirst(E datum) {
         if (head == null) {
             head = new Node(datum, null, null);
             tail = head;
@@ -284,15 +428,31 @@ public class ExposedList<E> extends AbstractList<E> {
             head = new Node(datum, null, head);
             head.next.previous = head;
         }
+        
         return head;
-//        incSize(1);
     }
     
+    private Node createNodeChain(Collection<? extends E> c) {
+    	Iterator<? extends E> iter = c.iterator();
+    	Node n = new Node(iter.next());
+    	while (iter.hasNext()) {
+//    		n = 
+    	}
+    }
     
+    private void checkIndex(int index) {
+    	if (index < 0 || index >= size) {
+    		throw new IndexOutOfBoundsException("Index: "+index+" Size: "+size);
+    	} 
+    }
     
-    private void incSize(int count) {
+    private void incSizeMod(int count) {
         size += count;
         modCount++;
+    }
+    
+    private void incMod() {
+    	modCount++;
     }
     
 // Iterator
@@ -301,10 +461,21 @@ public class ExposedList<E> extends AbstractList<E> {
         protected Node last;
         protected int nextIndex;
         protected int itrModCount = modCount;
+        protected final boolean noIndexAvailable;
 
         public Itr(Node next, int nextIndex) {
+        	if (nextIndex < 0) {
+        		throw new IllegalArgumentException("Next index < 0");
+        	}
             this.nextNode = next;
             this.nextIndex = nextIndex;
+            noIndexAvailable = false;
+        }
+        
+        public Itr(Node next) {
+            this.nextNode = next;
+            this.nextIndex = -1;
+            noIndexAvailable = true;
         }
         
         @Override
@@ -350,30 +521,48 @@ public class ExposedList<E> extends AbstractList<E> {
 
         @Override
         public int nextIndex() {
+        	checkIndexAvailable();
             return nextIndex;
         }
 
         @Override
         public int previousIndex() {
+        	checkIndexAvailable();
             return nextIndex-1;
         }
 
         @Override
         public void remove() {
             checkModCount();
+            checkLast();
+            last.unlink();
+            incSizeMod(-1); itrModCount++;
+            last = null;
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void set(E e) {
+            checkLast();
             last.datum = e;
         }
 
         @Override
         public void add(E e) {
             checkModCount();
-            checkLast();
-            linkAfter(last, e);
+            // case A: add as first
+            if (head == null || nextNode != null && nextNode.previous == null) {
+            	linkFirst(e);
+            // case B: add last
+            } else if (nextNode == null) {
+            	linkAfter(tail, e); // tail != null because list not empty because head!=null
+            // case C: otherwise
+            } else {
+            	linkAfter(nextNode.previous, e);
+            }
+            nextIndex++;
+            incSizeMod(1); itrModCount++;
+            last = null;
         }
         
         final void checkModCount() throws ConcurrentModificationException {
@@ -386,6 +575,12 @@ public class ExposedList<E> extends AbstractList<E> {
             if (last == null) {
                 throw new IllegalStateException("Operation requires a previouslly accessed node");
             }
+        }
+        
+        final void checkIndexAvailable() throws UnsupportedOperationException {
+        	if (noIndexAvailable) {
+        		throw new UnsupportedOperationException("Index is not available");
+        	}
         }
     }
 }
