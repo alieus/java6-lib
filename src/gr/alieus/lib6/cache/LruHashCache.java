@@ -24,7 +24,7 @@ public class LruHashCache<K, V> {
      * @param <K> the type of the key
      * @param <V> the type of the value
      */
-    static class Entry<K, V> {
+    static final class Entry<K, V> {
         final K key;
         V value;
 
@@ -69,7 +69,7 @@ public class LruHashCache<K, V> {
      * Holds the information needed to track an entry immediately when it is
      * time to evict it.
      */
-    static class LruEntry {
+    static final class LruEntry {
 
         /** The index of the actual entry on the hashtable. */
         final int bucket;

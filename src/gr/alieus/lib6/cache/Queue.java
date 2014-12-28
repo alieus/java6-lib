@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * @author Stathis Aliprantis - p3120005
  * @param <T> the type of the elements of this queue
  */
-public class Queue<T> {
+final class Queue<T> {
     
     /**
      * List node for storing the data of the queue.
@@ -21,7 +21,7 @@ public class Queue<T> {
      * 
      * @param <E> the type of the element of this node
      */
-    public static class Node<E> {
+    public final static class Node<E> {
         Node<E> previous;
         Node<E> next;
         E element;
