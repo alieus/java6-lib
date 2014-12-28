@@ -433,11 +433,12 @@ public class ExposedList<E> extends AbstractList<E> {
     }
     
     private Node createNodeChain(Collection<? extends E> c) {
-    	Iterator<? extends E> iter = c.iterator();
-    	Node n = new Node(iter.next());
-    	while (iter.hasNext()) {
-//    		n = 
-    	}
+        throw new UnsupportedOperationException("Not yet implemented.");
+//    	Iterator<? extends E> iter = c.iterator();
+//    	Node n = new Node(iter.next());
+//    	while (iter.hasNext()) {
+////    		n = 
+//    	}
     }
     
     private void checkIndex(int index) {
