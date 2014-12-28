@@ -5,10 +5,12 @@ import java.math.BigInteger;
 /**
  * Cache implementation using a hashtable with chaining for resolving collisions.
  * The size of this cache is specified at creation and cannot change.
- * This implementation uses the "Least Recently Used" replacement policy.
+ * This implementation uses the "Least Recently Used" (lru) replacement policy.
  * If an attempt to store a new key occurs while the cache is full then the
  * last entry accessed (stored or retrieved) is evicted to free space.
  * Storing a value with a key that already exists causes the old value to be replaced.
+ * 
+ * Time complexity for both store (get) and lookup (push) is O(1).
  * 
  * @author Stathis Aliprantis - p3120005
  * @param <K> the type of the keys
