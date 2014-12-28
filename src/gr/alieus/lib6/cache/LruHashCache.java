@@ -6,7 +6,7 @@ import java.math.BigInteger;
  * Cache implementation using a hashtable with chaining for resolving collisions.
  * The size of this cache is specified at creation and cannot change.
  * This implementation uses the "Least Recently Used" replacement policy.
- * If an attempt to store a new key accurs while the cache is full then the
+ * If an attempt to store a new key occurs while the cache is full then the
  * last entry accessed (stored or retrieved) is evicted to free space.
  * Storing a value with a key that already exists causes the old value to be replaced.
  * 
@@ -66,7 +66,7 @@ public class LruHashCache<K, V> {
     
     /**
      * Entry of the lru queue.
-     * Holds the information nedded to track an entry immediately when it is
+     * Holds the information needed to track an entry immediately when it is
      * time to evict it.
      */
     static class LruEntry {
@@ -103,7 +103,7 @@ public class LruHashCache<K, V> {
     /** The ratio: (number of entries) / (hashtable length). */
     private float loadFactor = DEFAULT_LOAD_FACTOR;
 
-    /** The maximun number of entries this cache can store. */
+    /** The maximum number of entries this cache can store. */
     private int size;
 
     /**
@@ -247,7 +247,7 @@ public class LruHashCache<K, V> {
     /**
      * Removes the given entry from the specified bucket.
      * 
-     * @param bucket the index of the bucket wich contains the entry to be cleared.
+     * @param bucket the index of the bucket witch contains the entry to be cleared.
      * @param toClear the entry to remove
      */
     private void clear(int bucket, Entry toClear) {
