@@ -353,6 +353,7 @@ public class ExposedList<E> extends AbstractList<E> {
      * Throws {@code IllegalStateException} if this list contains less than the
      * specified elements.
      * 
+     * @param count
      * @throws IllegalStateException if this list contains less than the
      * specified elements
      */
@@ -503,7 +504,7 @@ public class ExposedList<E> extends AbstractList<E> {
         @Override
         public boolean hasPrevious() {
             return nextNode == null && tail != null
-                    || nextNode.previous != null;
+                    || nextNode != null && nextNode.previous != null;
         }
 
         @Override
