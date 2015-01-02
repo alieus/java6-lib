@@ -22,7 +22,7 @@ import java.util.*;
 // XXX Not complete!!
 
 /**
- * A linked list which exposes it's nodes so there is no need to traverse the
+ * A linked list which exposes its nodes so there is no need to traverse the
  * list and find them again.
  * 
  * @author Stathis Aliprantis - alieus@hotmail.gr
@@ -153,7 +153,7 @@ public class ExposedList<E> extends AbstractList<E> {
         }
         
         /**
-         * Removes this node and it's data from the list.
+         * Removes this node and its data from the list.
          * 
          * @throws IllegalStateException if this node is not present on the list
          */
@@ -279,10 +279,10 @@ public class ExposedList<E> extends AbstractList<E> {
     }
     
     /** 
-     * Returns the first element of this list (at index 0) or {@literal null}
+     * Returns the first element of this list (at index 0) or {@code null}
      * if the list is empty.
      * 
-     * @return the first element of this list (at index 0) or {@literal null}
+     * @return the first element of this list (at index 0) or {@code null}
      * if the list is empty.
      */
     public E getFirst() {
@@ -294,10 +294,10 @@ public class ExposedList<E> extends AbstractList<E> {
     }
     
     /** 
-     * Returns the last element of this list (at index 0) or {@literal null}
+     * Returns the last element of this list (at index 0) or {@code null}
      * if the list is empty.
      * 
-     * @return the last element of this list (at index 0) or {@literal null}
+     * @return the last element of this list (at index 0) or {@code null}
      * if the list is empty.
      */
     public E getLast() {
@@ -327,7 +327,7 @@ public class ExposedList<E> extends AbstractList<E> {
      * Removes and returns the last element of this list.
      * If the list is empty, does nothing and returns null.
      * 
-     * @return the last element of this list or {@literal null} if this list is empty
+     * @return the last element of this list or {@code null} if this list is empty
      */
     public E popLast() {
         if (tail == null) {

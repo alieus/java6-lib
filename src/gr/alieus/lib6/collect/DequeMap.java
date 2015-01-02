@@ -59,10 +59,10 @@ public interface DequeMap<K, V> {
     
     /**
      * Returns the first value associated with the given key.
-     * Returns {@literal null} if key does not exist.
+     * Returns {@code null} if key does not exist.
      * 
-     * @param key the key to obtain it's first value
-     * @return the first value associated with key or {@literal null}
+     * @param key the key to obtain its first value
+     * @return the first value associated with key or {@code null}
      */
     V get(K key);
     
@@ -71,36 +71,36 @@ public interface DequeMap<K, V> {
      * Any pre-existing values will be removed.
      * After this operation the key will be associated with a single value.
      * 
-     * @param key the key to set it's value
+     * @param key the key to set its value
      * @param value the value to set for key
      */
     void set(K key, V value);
     
     /**
      * Returns the last value associated with the given key.
-     * Returns {@literal null} if key does not exist.
+     * Returns {@code null} if key does not exist.
      * 
-     * @param key the key to obtain it's last value
-     * @return the last value associated with key or {@literal null}
+     * @param key the key to obtain its last value
+     * @return the last value associated with key or {@code null}
      */
     V getLast(K key);
     
     /**
      * Returns and removes the first value associated with the given key.
-     * Returns {@literal null} if key does not exist.
+     * Returns {@code null} if key does not exist.
      * 
-     * @param key the key to pop it's first value
-     * @return the first value associated with key or {@literal null}
+     * @param key the key to pop its first value
+     * @return the first value associated with key or {@code null}
      * @see #assertContainsKey
      */
     V pop(K key);
     
     /**
      * Returns and removes the last value associated with the given key.
-     * Returns {@literal null} if key does not exist.
+     * Returns {@code null} if key does not exist.
      * 
-     * @param key the key to pop it's last value
-     * @return the last value associated with key or {@literal null}
+     * @param key the key to pop its last value
+     * @return the last value associated with key or {@code null}
      */
     V popLast(K key);
     
@@ -127,7 +127,7 @@ public interface DequeMap<K, V> {
      * If the given key does not exist, an empty list is returned, which,
      * in turn, can be used to add elements to the key.
      * 
-     * @param key the key to get it's values
+     * @param key the key to get its values
      * @return a live view of the values of {@code key}
      */
     List<V> getAll(K key);
@@ -135,7 +135,7 @@ public interface DequeMap<K, V> {
     /**
      * Sets the values of the given key.
      * 
-     * @param key the key to set it's values
+     * @param key the key to set its values
      * @param values the new values of {@code key}
      */
     void setAll(K key, Collection<? extends V> values);
@@ -144,7 +144,7 @@ public interface DequeMap<K, V> {
      * Returns and removes the values of the given key.
      * If key does not exist, an empty list is returned.
      * 
-     * @param key the key to pop it's values
+     * @param key the key to pop its values
      * @return the values of {@code key}
      */
     List<V> popAll(K key);
@@ -153,7 +153,7 @@ public interface DequeMap<K, V> {
      * Returns and removes the values of the given key in reverse order.
      * If key does not exist, an empty list is returned.
      * 
-     * @param key the key to pop it's values in reverse order
+     * @param key the key to pop its values in reverse order
      * @return the values of {@code key}
      */
     List<V> popAllLast(K key);
@@ -163,7 +163,7 @@ public interface DequeMap<K, V> {
      * If the key contains less than N values, all of them are returned
      * and removed.
      * 
-     * @param key the key to pop it's N first values
+     * @param key the key to pop its N first values
      * @param n number of values to pop
      * @return at most N first values of {@code key}
      * @see #assertAtLeast
@@ -175,7 +175,7 @@ public interface DequeMap<K, V> {
      * If the key contains less than N values, all of them are returned
      * and removed in reverse order.
      * 
-     * @param key the key to pop it's N last values
+     * @param key the key to pop its N last values
      * @param n number of values to pop
      * @return at most N last values of {@code key} in reverse order
      * @see #assertAtLeast
@@ -220,7 +220,7 @@ public interface DequeMap<K, V> {
      * Throws an {@code IllegalStateException} if the given key does not
      * contain at least {@code minCount} values.
      * 
-     * @param key the key to ensure it's minimum number of values
+     * @param key the key to ensure its minimum number of values
      * @param minCount the minimum number of values required
      * @throws IllegalStateException if the given key does not
      * contain at least {@code minCount} values
@@ -228,11 +228,11 @@ public interface DequeMap<K, V> {
     void assertAtLeast(K key, int minCount) throws IllegalStateException;
     
     /**
-     * Returns {@literal true} if the given key exists in this map.
+     * Returns {@code true} if the given key exists in this map.
      * A key exists if it has at least one value associated with it.
      * 
      * @param key the key to check for existence 
-     * @return {@literal true} if the given key exists in this map
+     * @return {@code true} if the given key exists in this map
      * @see #assertContainsKey
      */
     boolean containsKey(K key);
@@ -241,7 +241,7 @@ public interface DequeMap<K, V> {
      * Throws a {@code NoSuchElementException} if the given key
      * does not exist.
      * 
-     * @param key the key to ensure it's existence
+     * @param key the key to ensure its existence
      * @throws NoSuchElementException if the given key does not exist 
      */
     void assertContainsKey(K key) throws NoSuchElementException; 
@@ -325,7 +325,7 @@ public interface DequeMap<K, V> {
     /**
      * Removes all values associated with the given key.
      * 
-     * @param key the key to remove it's values
+     * @param key the key to remove its values
      */
     void clearKey(K key);
     
@@ -347,7 +347,7 @@ public interface DequeMap<K, V> {
      * the same values in the same order.
      * 
      * @param obj a {@code DequeMap} to check for equality
-     * @return {@literal true} if this deque-map and the given one are equal
+     * @return {@code true} if this deque-map and the given one are equal
      */
     @Override
     boolean equals(Object obj);

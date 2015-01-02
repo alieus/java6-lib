@@ -258,7 +258,7 @@ public class LruHashCache<K, V> {
      * @param key the key to compare with the key of the given entry
      * @param hash the hash value of the given key
      * @param entry the entry
-     * @return {@literal true} if the given key and the key of the given entry are equal.
+     * @return {@code true} if the given key and the key of the given entry are equal.
      */
     private static boolean isKey(Object key, int hash, Entry entry) {
         return hash == entry.hash && (

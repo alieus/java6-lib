@@ -94,7 +94,7 @@ final class Queue<T> {
     }
     
     /**
-     * Removes the head of this queue and returns it's element
+     * Removes the head of this queue and returns its element
      * 
      * @return the element of the head of this queue
      * @throws NoSuchElementException if this queue is empty
