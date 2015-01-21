@@ -158,24 +158,24 @@ public class ExposedList<E> extends AbstractList<E> {
          * @throws IllegalStateException if this node is not present on the list
          */
         public void remove() {
-        	checkNotDettached();
+            checkNotDettached();
             unlink();
             incSizeMod(-1);
         }
         
         public Node addAfter(E datum) {
-        	checkNotDettached();
-        	incSizeMod(1);
-        	return linkAfter(this, datum);
+            checkNotDettached();
+            incSizeMod(1);
+            return linkAfter(this, datum);
         }
         
         public Node addBefore(E datum) {
-        	if (this.previous != null) {
-        		return this.previous.addBefore(datum);
-        	} else {
-        		incSizeMod(1);
-        		return linkFirst(datum);
-        	}
+            if (this.previous != null) {
+                    return this.previous.addBefore(datum);
+            } else {
+                    incSizeMod(1);
+                    return linkFirst(datum);
+            }
         }
         
         public void addAllAfter(Collection<E> data) {
@@ -242,7 +242,7 @@ public class ExposedList<E> extends AbstractList<E> {
     @Override
     public ListIterator<E> listIterator(int index) {
     	if (index == size) {
-    		return new Itr(null, index);
+            return new Itr(null, index);
     	}
     	return new Itr(getNodeAt(index), index);
     }
@@ -260,13 +260,13 @@ public class ExposedList<E> extends AbstractList<E> {
     @Override
     public boolean contains(Object o) {
     	if (o == null) {
-    		for (Node it = head; it != null; it = it.next) {
-    			if (it.datum == null) return true;
-    		}
+            for (Node it = head; it != null; it = it.next) {
+                    if (it.datum == null) return true;
+            }
     	} else {
-    		for (Node it = head; it != null; it = it.next) {
-    			if (o.equals(it.datum)) return true;
-    		}
+            for (Node it = head; it != null; it = it.next) {
+                    if (o.equals(it.datum)) return true;
+            }
     	}
     	
     	return false;
