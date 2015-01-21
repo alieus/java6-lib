@@ -46,4 +46,10 @@
         </junit>
 
     </target>
+    
+     <target name="clean">
+        <delete>
+            <fileset dir="${basedir}" includes="**/*.class" />
+        </delete>
+    </target>
 </project>
