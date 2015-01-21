@@ -1,5 +1,5 @@
 <project default="compile">
-    <property name="src.build" value="build/main" />
+    <property name="src.build" value="build/src" />
     <property name="src" value="src" />
     <property name="test.build" value="build/test" />
     <property name="test" value="test" />
@@ -8,8 +8,8 @@
     <path id="classpath.src"/>
     
     <path id="classpath.test">
-        <pathelement location="lib/junit-4.12.jar" />
-        <pathelement location="lib/hamcrest-core-1.3.jar" />
+        <pathelement location="lib_developement/junit-4.12.jar" />
+        <pathelement location="lib_developement/hamcrest-core-1.3.jar" />
         <pathelement location="${src.build}"/>
         <path refid="classpath.src" />
     </path>
