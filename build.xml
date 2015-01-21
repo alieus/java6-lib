@@ -1,26 +1,41 @@
 <project default="compile">
+    <property name="src.build" value="build/main" />
+    <property name="src" value="src" />
+    <property name="test.build" value="build/test" />
+    <property name="test" value="test" />
+    <property name="test.reports" value="testreports"/>
+    
+    <path id="classpath.src"/>
+    
+    <path id="classpath.test">
+        <pathelement location="lib/junit-4.11.jar" />
+        <pathelement location="lib/hamcrest-core-1.3.jar" />
+        <pathelement location="${src.build}"/>
+        <path refid="classpath.src" />
+    </path>
+    
     <target name="compile">
-        <mkdir dir="build"/>
-        <javac srcdir="src" destdir="build"/>
+        <mkdir dir="${src.build}"/>
+        <javac srcdir="${src}" destdir="${src.build}" classpathref="classpath.src" includeantruntime="false"/>
         <mkdir dir="testbuild"/>
-        <javac srcdir="test" destdir="testbuild"/>
+        <javac srcdir="${test}" destdir="${test.build}" classpathref="classpath.test" includeantruntime="false"/>
     </target>
+    
     <target name="test" depends="compile">
 
-        <mkdir dir="${reports.tests}"/>
+        <mkdir dir="${test.reports}"/>
 
         <junit printsummary="yes" haltonfailure="yes">
             <classpath>
-                <pathelement location="${project.class.path}"/>
-                <pathelement location="${build.tests}"/>
+                <pathelement location="${classpath.test}"/>
                 <pathelement path="${java.class.path}"/>
             </classpath>
 
             <formatter type="plain"/>
             <formatter type="xml"/>
 
-            <batchtest fork="yes" todir="${reports.tests}">
-                <fileset dir="test">
+            <batchtest fork="yes" todir="${test.reports}">
+                <fileset dir="${test}">
                     <include name="**/*Test*.java"/>
                 </fileset>
             </batchtest>
