@@ -8,7 +8,7 @@
     <path id="classpath.src"/>
     
     <path id="classpath.test">
-        <pathelement location="lib/junit-4.11.jar" />
+        <pathelement location="lib/junit-4.12.jar" />
         <pathelement location="lib/hamcrest-core-1.3.jar" />
         <pathelement location="${src.build}"/>
         <path refid="classpath.src" />
@@ -17,18 +17,21 @@
     <target name="compile">
         <mkdir dir="${src.build}"/>
         <javac srcdir="${src}" destdir="${src.build}" classpathref="classpath.src" includeantruntime="false"/>
-        <mkdir dir="testbuild"/>
+    </target>
+    
+    <target name="compiletests" depends="compile">
+        <mkdir dir="${test.build}"/>
         <javac srcdir="${test}" destdir="${test.build}" classpathref="classpath.test" includeantruntime="false"/>
     </target>
     
-    <target name="test" depends="compile">
+    <target name="test" depends="compiletests">
 
         <mkdir dir="${test.reports}"/>
 
         <junit printsummary="yes" haltonfailure="yes">
             <classpath>
-                <pathelement location="${classpath.test}"/>
-                <pathelement path="${java.class.path}"/>
+                <path refid="classpath.test"/>
+                <pathelement location="${test.build}"/>
             </classpath>
 
             <formatter type="plain"/>
