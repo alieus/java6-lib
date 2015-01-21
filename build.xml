@@ -1,6 +1,31 @@
 <project default="compile">
     <target name="compile">
-        <mkdir dir="bin"/>
-        <javac srcdir="src" destdir="bin"/>
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build"/>
+        <mkdir dir="testbuild"/>
+        <javac srcdir="test" destdir="testbuild"/>
+    </target>
+    <target name="test" depends="compile">
+
+        <mkdir dir="${reports.tests}"/>
+
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement location="${project.class.path}"/>
+                <pathelement location="${build.tests}"/>
+                <pathelement path="${java.class.path}"/>
+            </classpath>
+
+            <formatter type="plain"/>
+            <formatter type="xml"/>
+
+            <batchtest fork="yes" todir="${reports.tests}">
+                <fileset dir="test">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+
+        </junit>
+
     </target>
 </project>
