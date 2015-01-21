@@ -441,7 +441,6 @@ public class ExposedList<E> extends AbstractList<E> {
 //    	Iterator<? extends E> iter = c.iterator();
 //    	Node n = new Node(iter.next());
 //    	while (iter.hasNext()) {
-////    		n = 
 //    	}
     }
     
