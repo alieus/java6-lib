@@ -26,7 +26,7 @@ import java.math.BigInteger;
  * The size of this cache is specified at creation and cannot change.
  * This implementation uses the "Least Recently Used" (lru) replacement policy.
  * If an attempt to store a new key occurs while the cache is full then the
- * last entry accessed (stored or retrieved) is evicted to free space.
+ * oldest entry accessed (stored or retrieved) is evicted to free space.
  * Storing a value with a key that already exists causes the old value to be replaced.
  * 
  * Time complexity for both store (get) and lookup (push) is O(1).
